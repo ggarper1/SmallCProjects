@@ -8,16 +8,14 @@ This repository is a collection of solutions to various small programming and al
 
 | Problem File | Language | Description |
 | :--- | :--- | :--- |
-| `calculate_median.py` | Python | Finds the median value of an unsorted list of numbers. |
-| `reverse_string.js` | JavaScript | Reverses a given string without using built-in reverse functions. |
-| `check_palindrome.java` | Java | Determines if a given string is a palindrome (reads the same forwards and backward). |
-| `fizzbuzz.go` | Go | Implements the classic FizzBuzz challenge: printing 'Fizz' for multiples of 3, 'Buzz' for multiples of 5, and 'FizzBuzz' for multiples of both. |
-| **... add your new problems here** | | |
+| `droneOptimization.py` | Python, C | Finds the minimum flight time for two drones that deliver packages. |
 
 ---
 
 ## 💡 Problem Explanations
 
-### `calculate_median.py`
+### `droneOptimization`
 
-**The Problem:** Given an array of integers, write a function that returns the median of the numbers. The median is the middle element if the total count of elements is odd
+**The Problem:** Two drones must deliver packages. The first drone must deliver `d1` packages, the second must deliver `d2` packages. Additionally, the first drone must charge at all hours multiple of `c1` and the second at all hours multiples of `c2`. Knowing that they cannot deliver packages at the same time, that all deliveries take 1 hour and all charges also take 1 hour, what's the minimum amount of hours all packages could be delivered in?
+
+**The Solution:** The key to the solution is realizing that every hour at least one drone will be able to deliver a package except those hours where both drones need to charge.

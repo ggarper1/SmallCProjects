@@ -36,14 +36,14 @@ def euclidean_algorithm(n1, n2):
     return max(n1, n2)
 
 def smart(deliveries1, deliveries2, charge1, charge2):
-    f1 = deliveries1 // (charge1 - 1) - int(deliveries1 % (charge1 - 1) == 0)
-    f2 = deliveries2 // (charge2 - 1) - int(deliveries2 % (charge2 - 1) == 0)
+    charge_time1 = deliveries1 // (charge1 - 1) - int(deliveries1 % (charge1 - 1) == 0)
+    charge_time2 = deliveries2 // (charge2 - 1) - int(deliveries2 % (charge2 - 1) == 0)
 
     gcd = euclidean_algorithm(charge1, charge2)
     lcm = charge1 * charge2 // gcd if gcd > 0 else deliveries1 * deliveries2
     
-    if f1 - ((deliveries1 + f1) // lcm - int((deliveries1 + f1) % lcm == 0)) > deliveries2: return deliveries1 + f1
-    if f2 - ((deliveries2 + f2) // lcm - int((deliveries2 + f2) % lcm == 0)) > deliveries1: return deliveries2 + f2
+    if charge_time1 - ((deliveries1 + charge_time1) // lcm - int((deliveries1 + charge_time1) % lcm == 0)) > deliveries2: return deliveries1 + charge_time1
+    if charge_time2 - ((deliveries2 + charge_time2) // lcm - int((deliveries2 + charge_time2) % lcm == 0)) > deliveries1: return deliveries2 + charge_time2
 
     total_deliveries = deliveries1 + deliveries2
 
@@ -59,7 +59,7 @@ def run_test():
         brute_result = brute_force(d1, d2, c1, c2)
         if smart_result != brute_result:
             print(f"❌ Error for input {d1}, {d2}, {c1}, {c2}:\n\tBrute: {brute_result}\n\tSmart: {smart_result}")
-            break
+            return
 
     print("✅ All tests passed!")
 
