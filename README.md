@@ -6,12 +6,13 @@ This repository is a collection of solutions written in C to various small progr
 
 ## 📝 Problem Index
 
-| Problem File | Language | Description |
-| :--- | :--- | :--- |
-| `droneOptimization` | Python, C | Find the minimum flight time for two drones that deliver packages. |
-| `smallestInListV1` | C | Find the smallest element in a list thay can be obtained after a certain amount of operations. Easy version. |
-| `smallestInListV2` | C | Find the smallest element in a list thay can be obtained after a certain amount of operations. Medium version |
-| `smallestInListV3` | C | Find the smallest element in a list thay can be obtained after a certain amount of operations. Harder version |
+| Problem File | Description |
+| :--- | :--- |
+| `droneOptimization` | Find the minimum flight time for two drones that deliver packages. |
+| `smallestInListV1` | Find the smallest element in a list thay can be obtained after a certain amount of operations. Easy version. |
+| `smallestInListV2` | Find the smallest element in a list thay can be obtained after a certain amount of operations. Medium version |
+| `smallestInListV3` | Find the smallest element in a list thay can be obtained after a certain amount of operations. Harder version |
+| `arraySumOperation` | Apply operations on a array and obtain the sum of it's elements after each one. |
 
 ---
 
@@ -59,3 +60,16 @@ Input:
 - `l` = [10, 32, 34, 44]
 - `maxOperations` = 3
 Output: 0
+
+### `arraySumOperation`
+
+**The Problem:** problem from HackerRank 'Hack the Interview VI (U.S.)' competition. You have an identity permutation of integers as an array initially. An identity permutation of integers for `N` is a list containing all strictly positive numbers up to `N`. On this problem, you have to perform operations on this array and report the sum of the elements of the array after each operation.
+
+The i_th operation consists of an integer `opi`.
+
+1. If the array contains `opi`, swap the first and last elements in the array.
+2. Else, remove the last element of the array and push  to the end of the array.
+
+The input is read from a file containing in the first line the values for `N` and `M` separated by a space. `M` is the number of operations. After that, line ith contains the value for operation ith.
+
+**The Solution:** Simple problem.
