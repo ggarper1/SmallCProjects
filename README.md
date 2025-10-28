@@ -70,6 +70,6 @@ The i_th operation consists of an integer `opi`.
 1. If the array contains `opi`, swap the first and last elements in the array.
 2. Else, remove the last element of the array and push  to the end of the array.
 
-The input is read from a file containing in the first line the values for `N` and `M` separated by a space. `M` is the number of operations. After that, line ith contains the value for operation ith.
+The input is read from a file containing in the first line the values for `N` and `M` separated by a space. `M` is the number of operations. After that, line i_th contains the value for operation i_th.
 
 **The Solution:** Simple problem.

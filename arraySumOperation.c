@@ -1,12 +1,6 @@
-#include <assert.h>
-#include <ctype.h>
-#include <limits.h>
 #include <stdbool.h>
-#include <stddef.h>
-#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 int readOutput(long **output) {
   FILE *file = fopen("output13.txt", "r");
