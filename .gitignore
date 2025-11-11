@@ -9,3 +9,6 @@
 
 # Nvim clang config
 .clangd
+
+# Leaks generated files
+*.dSYM

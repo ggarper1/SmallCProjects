@@ -11,14 +11,6 @@
     _a < _b ? _a : _b;                                                         \
   })
 
-// --- Public Function ---
-
-/**
- * Creates a new Binary Tree.
- * @param capacity Initial number of items.
- * @param compare_func Function to compare items.
- * @return A pointer to the new BinaryTree, or NULL on failure.
- */
 BinaryTree_t *newBinaryTree(int (*compare_func)(const void *item1,
                                                 const void *item2)) {
   BinaryTree_t *tree = malloc(sizeof(BinaryTree_t));
@@ -32,6 +24,22 @@ BinaryTree_t *newBinaryTree(int (*compare_func)(const void *item1,
   tree->head = NULL;
 
   return tree;
+}
+
+BTNode_t *btFind(BinaryTree_t *tree, void *item) {
+  BTNode_t *current = tree->head;
+
+  while (current != NULL) {
+    int comparison = tree->compare_func(item, current->value);
+    if (comparison < 0) {
+      current = current->left;
+    } else if (comparison > 0) {
+      current = current->right;
+    } else {
+      return current;
+    }
+  }
+  return NULL;
 }
 
 BTNode_t *btInsert(BinaryTree_t *tree, void *item) {
@@ -81,132 +89,125 @@ BTNode_t *btInsert(BinaryTree_t *tree, void *item) {
   }
 }
 
-int btRemove(BinaryTree_t *tree, const void *item) {
+void *btRemove(BinaryTree_t *tree, const void *item) {
   BTNode_t *current = tree->head;
-  bool notFound = true;
-  while (notFound) {
+  BTNode_t **prev = NULL;
+
+  while (true) {
     int comparison = tree->compare_func(item, current->value);
 
     if (comparison < 0) {
       if (current->left == NULL) {
-        return -1;
+        return NULL;
       }
+      prev = &current->left;
       current = current->left;
     } else if (comparison > 0) {
       if (current->right == NULL) {
-        return -1;
+        return NULL;
       }
+      prev = &current->right;
       current = current->right;
     } else {
-      notFound = false;
+      break;
     }
   }
+
+  tree->length--;
 
   if (current->left == NULL && current->right == NULL) {
+    void *ptr = current->value;
+    *prev = NULL;
     free(current);
+    return ptr;
   } else if (current->right == NULL) {
-    BTNode_t *moved = current->left;
-    while (moved->left != NULL) {
-      moved = moved->left;
-    }
-    current->value = moved->value;
-    free(moved);
+    void *ptr = current->value;
+    BTNode_t *toDelete = current->left;
+    current->value = toDelete->value;
+    current->left = toDelete->left;
+    current->right = toDelete->right;
+
+    free(toDelete);
+    return ptr;
+  } else if (current->left == NULL) {
+    void *ptr = current->value;
+    BTNode_t *toDelete = current->right;
+    current->value = toDelete->value;
+    current->left = toDelete->left;
+    current->right = toDelete->right;
+
+    free(toDelete);
+    return ptr;
   } else {
-    BTNode_t *moved = current->right;
-    while (moved->right != NULL) {
-      moved = moved->right;
+    BTNode_t *toDelete = current->right;
+    BTNode_t **prev = &(current->right);
+    while (toDelete->left != NULL) {
+      prev = &(toDelete->left);
+      toDelete = toDelete->left;
     }
-    current->value = moved->value;
-    free(moved);
-  }
-  return 0;
-}
-
-// TODO: decrease length
-int btRemoveWithValue(BinaryTree_t *tree, const void *item) {
-  BTNode_t *current = tree->head;
-  bool notFound = true;
-  while (notFound) {
-    int comparison = tree->compare_func(item, current->value);
-
-    if (comparison < 0) {
-      if (current->left == NULL) {
-        return -1;
-      }
-      current = current->left;
-    } else if (comparison > 0) {
-      if (current->right == NULL) {
-        return -1;
-      }
-      current = current->right;
+    if (toDelete->right != NULL) {
+      *prev = toDelete->right;
     } else {
-      notFound = false;
+      *prev = NULL;
     }
-  }
+    void *ptr = current->value;
+    current->value = toDelete->value;
 
-  if (current->left == NULL && current->right == NULL) {
-    free(current->value);
-    free(current);
-  } else if (current->right == NULL) {
-    BTNode_t *moved = current->left;
-    while (moved->left != NULL) {
-      moved = moved->left;
-    }
-    current->value = moved->value;
-    free(moved->value);
-    free(moved);
-  } else {
-    BTNode_t *moved = current->right;
-    while (moved->right != NULL) {
-      moved = moved->right;
-    }
-    current->value = moved->value;
-    free(moved->value);
-    free(moved);
+    free(toDelete);
+    return ptr;
   }
-  return 0;
 }
 
 void btDestroy(BinaryTree_t *tree) {
-  BTNode_t *stack[(int)log2(tree->length)];
+  BTNode_t **nodes = malloc(sizeof(BTNode_t *) * (tree->maxDepth + 1));
+  nodes[0] = tree->head;
+  int i = 0;
 
-  stack[0] = tree->head;
-  int idx = 0;
-
-  while (idx > -1) {
-    if (stack[idx]->left != NULL) {
-      stack[idx + 1] = stack[idx]->left;
-      idx++;
-    } else if (stack[idx]->right != NULL) {
-      stack[idx + 1] = stack[idx]->right;
-      idx++;
-    } else {
-      free(stack[idx]);
-      idx--;
+  while (i > -1) {
+    BTNode_t *l = nodes[i]->left;
+    BTNode_t *r = nodes[i]->right;
+    free(nodes[i]);
+    if (l != NULL) {
+      nodes[i] = l;
+    }
+    if (r && l) {
+      i++;
+    }
+    if (r != NULL) {
+      nodes[i] = r;
+    }
+    if (!r && !l) {
+      i--;
     }
   }
+  free(nodes);
   free(tree);
 }
 
-void btDestroyWithValues(BinaryTree_t *tree) {
-  BTNode_t *stack[(int)log2(tree->length)];
+void btDestroyAll(BinaryTree_t *tree) {
+  BTNode_t **nodes = malloc(sizeof(BTNode_t *) * (tree->maxDepth + 1));
+  nodes[0] = tree->head;
+  int i = 0;
 
-  stack[0] = tree->head;
-  int idx = 0;
-
-  while (idx > -1) {
-    if (stack[idx]->left != NULL) {
-      stack[idx + 1] = stack[idx]->left;
-      idx++;
-    } else if (stack[idx]->right != NULL) {
-      stack[idx + 1] = stack[idx]->right;
-      idx++;
-    } else {
-      free(stack[idx]->value);
-      free(stack[idx]);
-      idx--;
+  while (i > -1) {
+    BTNode_t *l = nodes[i]->left;
+    BTNode_t *r = nodes[i]->right;
+    free(nodes[i]->value);
+    free(nodes[i]);
+    if (l != NULL) {
+      nodes[i] = l;
+    }
+    if (r && l) {
+      i++;
+    }
+    if (r != NULL) {
+      nodes[i] = r;
+    }
+    if (!r && !l) {
+      i--;
     }
   }
+  free(nodes);
   free(tree);
 }
 

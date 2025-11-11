@@ -1,65 +1,69 @@
 #!/bin/bash
-
 # --- C Compilation and Execution Helper ---
 #
-# This script automates the compilation and linking process for your C programs,
-# especially those utilizing the utilities in the 'utils/' directory.
+# This script automates the compilation and linking process of C programs
+# using utilities in the 'utils/' directory.
 #
 # USAGE: ./run_c.sh <main_c_file>
 # EXAMPLE: ./run_c.sh closestSubsetSum.c
 
-# Set the name for the final executable
+# Parse and check agrs
 EXECUTABLE_NAME="a.out"
+USE_LEAKS=0
+while [[ $# -gt 0 ]]; do
+  case $1 in
+  -l | --leaks)
+    USE_LEAKS=1
+    shift
+    ;;
+  *)
+    MAIN_FILE="$1"
+    shift
+    ;;
+  esac
+done
 
-# --- CHECK FOR INPUT FILE ---
-if [ -z "$1" ]; then
+if [ -z "$MAIN_FILE" ]; then
   echo "Error: Please provide the name of the main C file to execute."
-  echo "Usage: $0 <main_c_file>"
-  echo "Exampple: $0 closestSubsetSum.c"
+  echo "Usage: $0 [-l|--leaks] <main_c_file>"
+  echo "Example: $0 closestSubsetSum.c"
+  echo "Example: $0 -l closestSubsetSum.c"
   exit 1
 fi
-
-MAIN_FILE="$1"
-
 if [ ! -f "$MAIN_FILE" ]; then
   echo "Error: Main file '$MAIN_FILE' not found."
   exit 1
 fi
 
 # Define the utility source files.
-# *** UPDATED: Now automatically includes ALL .c files in utils/src/ using a wildcard. ***
 UTILITY_FILES="utils/src/*.c"
-
-# Define the include path for header files in utils/include/
 INCLUDE_PATH="-Iutils/include"
 
 echo "-> Compiling $MAIN_FILE with utilities..."
-
-# --- COMPILATION AND LINKING ---
-# We use all source files ($MAIN_FILE and $UTILITY_FILES) and the include path.
-# If you need external libraries (like -lm for math functions), you can add
-# them here.
-# Note: The $UTILITY_FILES variable will be expanded by the shell to the list of found files.
-gcc \
-  "$MAIN_FILE" \
+# Compiling and linking
+gcc "$MAIN_FILE" \
   $UTILITY_FILES \
   $INCLUDE_PATH \
   -o "$EXECUTABLE_NAME"
-
 # Check the exit status of the compilation command
 if [ $? -eq 0 ]; then
-  echo "-> Compilation successful! Running program..."
+  echo "-> Compilation successful!"
+  if [ "$USE_LEAKS" = "1" ]; then
+    echo "-> Leak detection enabled"
+  fi
+  echo "-> Running program..."
   echo "----------------------------------------"
-
   # --- EXECUTION ---
   # Run the newly created executable
-  ./"$EXECUTABLE_NAME"
-
+  if [ "$USE_LEAKS" = "1" ]; then
+    echo "-> Leak detection enabled"
+    leaks --atExit -- ./"$EXECUTABLE_NAME"
+  else
+    ./"$EXECUTABLE_NAME"
+  fi
   EXEC_STATUS=$?
-
   echo "----------------------------------------"
   echo "-> Program finished with exit status $EXEC_STATUS."
-
   # --- CLEANUP (Optional but recommended) ---
   # Uncomment the line below if you want the script to remove the executable
   # after it runs.
