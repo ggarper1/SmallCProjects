@@ -9,7 +9,7 @@
 # EXAMPLE: ./run_c.sh closestSubsetSum.c
 
 # Set the name for the final executable
-EXECUTABLE_NAME="my_program_exec"
+EXECUTABLE_NAME="a.out"
 
 # --- CHECK FOR INPUT FILE ---
 if [ -z "$1" ]; then

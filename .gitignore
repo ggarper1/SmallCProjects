@@ -6,3 +6,6 @@
 
 # Static libraries
 .a
+
+# Nvim clang config
+.clangd
