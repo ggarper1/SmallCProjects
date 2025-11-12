@@ -18,7 +18,7 @@ BinaryTree_t *newBinaryTree(int (*compare_func)(const void *item1,
     return NULL;
   }
 
-  tree->maxDepth = -1;
+  tree->height = -1;
   tree->length = 0;
   tree->compare_func = compare_func;
   tree->head = NULL;
@@ -55,7 +55,7 @@ BTNode_t *btInsert(BinaryTree_t *tree, void *item) {
   tree->length++;
   if (tree->head == NULL) {
     tree->head = newNode;
-    tree->maxDepth = 0;
+    tree->height = 0;
     return newNode;
   }
 
@@ -67,8 +67,8 @@ BTNode_t *btInsert(BinaryTree_t *tree, void *item) {
     if (comparison < 0) {
       if (current->left == NULL) {
         current->left = newNode;
-        if (depth > tree->maxDepth) {
-          tree->maxDepth = depth;
+        if (depth > tree->height) {
+          tree->height = depth;
         }
         return newNode;
       } else {
@@ -77,8 +77,8 @@ BTNode_t *btInsert(BinaryTree_t *tree, void *item) {
     } else {
       if (current->right == NULL) {
         current->right = newNode;
-        if (depth > tree->maxDepth) {
-          tree->maxDepth = depth;
+        if (depth > tree->height) {
+          tree->height = depth;
         }
         return newNode;
       } else {
@@ -159,7 +159,7 @@ void *btRemove(BinaryTree_t *tree, const void *item) {
 }
 
 void btDestroy(BinaryTree_t *tree) {
-  BTNode_t **nodes = malloc(sizeof(BTNode_t *) * (tree->maxDepth + 1));
+  BTNode_t **nodes = malloc(sizeof(BTNode_t *) * (tree->height + 1));
   nodes[0] = tree->head;
   int i = 0;
 
@@ -185,7 +185,7 @@ void btDestroy(BinaryTree_t *tree) {
 }
 
 void btDestroyAll(BinaryTree_t *tree) {
-  BTNode_t **nodes = malloc(sizeof(BTNode_t *) * (tree->maxDepth + 1));
+  BTNode_t **nodes = malloc(sizeof(BTNode_t *) * (tree->height + 1));
   nodes[0] = tree->head;
   int i = 0;
 
@@ -219,12 +219,12 @@ void printTree(BinaryTree_t *tree,
     printf("Empty tree\n");
     return;
   }
-  if (tree->maxDepth > 6) {
+  if (tree->height > 6) {
     printf("Tree too big to print\n");
     return;
   }
 
-  BTNode_t **nodes = calloc(pow(2, tree->maxDepth + 1) - 1, sizeof(BTNode_t *));
+  BTNode_t **nodes = calloc(pow(2, tree->height + 1) - 1, sizeof(BTNode_t *));
   nodes[0] = tree->head;
 
   int i = 0, j = 1, ctr = 1;
@@ -247,7 +247,7 @@ void printTree(BinaryTree_t *tree,
   }
 
   char *buffer = malloc(sizeof(char) * bufferSize);
-  int maxSpace = pow(2, tree->maxDepth) * bufferSize;
+  int maxSpace = pow(2, tree->height) * bufferSize;
   int start = 0, end = 1;
   int depth = 1;
   int nSep = maxSpace / 2, cSep = maxSpace / 4;

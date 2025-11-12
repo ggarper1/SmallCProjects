@@ -70,9 +70,9 @@ bool testFind(BinaryTree_t *tree, void **items, int size) {
 }
 
 bool testBSTProperty(BinaryTree_t *tree) {
-  BTNode_t **nodes = malloc(sizeof(BTNode_t *) * (tree->maxDepth + 1));
+  BTNode_t **nodes = malloc(sizeof(BTNode_t *) * (tree->height + 1));
   if (nodes == NULL) {
-    printf("Could not allocate memory for tree with length %d", tree->maxDepth);
+    printf("Could not allocate memory for tree with length %d", tree->height);
     return false;
   }
 

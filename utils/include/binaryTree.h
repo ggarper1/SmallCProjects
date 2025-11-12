@@ -13,7 +13,7 @@ typedef struct BTNode {
 
 typedef struct BinaryTree {
   size_t length;
-  int maxDepth;
+  int height;
   BTNode_t *head;
   int (*compare_func)(const void *item1, const void *item2);
 } BinaryTree_t;
