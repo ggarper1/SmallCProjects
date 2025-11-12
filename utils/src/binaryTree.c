@@ -21,13 +21,13 @@ BinaryTree_t *newBinaryTree(int (*compare_func)(const void *item1,
   tree->height = -1;
   tree->length = 0;
   tree->compare_func = compare_func;
-  tree->head = NULL;
+  tree->root = NULL;
 
   return tree;
 }
 
 BTNode_t *btFind(BinaryTree_t *tree, void *item) {
-  BTNode_t *current = tree->head;
+  BTNode_t *current = tree->root;
 
   while (current != NULL) {
     int comparison = tree->compare_func(item, current->value);
@@ -53,14 +53,14 @@ BTNode_t *btInsert(BinaryTree_t *tree, void *item) {
   newNode->left = NULL;
 
   tree->length++;
-  if (tree->head == NULL) {
-    tree->head = newNode;
+  if (tree->root == NULL) {
+    tree->root = newNode;
     tree->height = 0;
     return newNode;
   }
 
   int depth = 1;
-  BTNode_t *current = tree->head;
+  BTNode_t *current = tree->root;
   while (true) {
     int comparison = tree->compare_func(item, current->value);
 
@@ -90,7 +90,7 @@ BTNode_t *btInsert(BinaryTree_t *tree, void *item) {
 }
 
 void *btRemove(BinaryTree_t *tree, const void *item) {
-  BTNode_t *current = tree->head;
+  BTNode_t *current = tree->root;
   BTNode_t **prev = NULL;
 
   while (true) {
@@ -160,7 +160,7 @@ void *btRemove(BinaryTree_t *tree, const void *item) {
 
 void btDestroy(BinaryTree_t *tree) {
   BTNode_t **nodes = malloc(sizeof(BTNode_t *) * (tree->height + 1));
-  nodes[0] = tree->head;
+  nodes[0] = tree->root;
   int i = 0;
 
   while (i > -1) {
@@ -186,7 +186,7 @@ void btDestroy(BinaryTree_t *tree) {
 
 void btDestroyAll(BinaryTree_t *tree) {
   BTNode_t **nodes = malloc(sizeof(BTNode_t *) * (tree->height + 1));
-  nodes[0] = tree->head;
+  nodes[0] = tree->root;
   int i = 0;
 
   while (i > -1) {
@@ -215,7 +215,7 @@ void printTree(BinaryTree_t *tree,
                void (*repr)(BTNode_t *node, char *buffer, int bufferSize),
                int bufferSize) {
 
-  if (tree->head == NULL) {
+  if (tree->root == NULL) {
     printf("Empty tree\n");
     return;
   }
@@ -225,7 +225,7 @@ void printTree(BinaryTree_t *tree,
   }
 
   BTNode_t **nodes = calloc(pow(2, tree->height + 1) - 1, sizeof(BTNode_t *));
-  nodes[0] = tree->head;
+  nodes[0] = tree->root;
 
   int i = 0, j = 1, ctr = 1;
   while (ctr < tree->length) {

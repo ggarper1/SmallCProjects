@@ -56,7 +56,6 @@ if [ $? -eq 0 ]; then
   # --- EXECUTION ---
   # Run the newly created executable
   if [ "$USE_LEAKS" = "1" ]; then
-    echo "-> Leak detection enabled"
     leaks --atExit -- ./"$EXECUTABLE_NAME"
   else
     ./"$EXECUTABLE_NAME"

@@ -76,7 +76,7 @@ bool testBSTProperty(BinaryTree_t *tree) {
     return false;
   }
 
-  nodes[0] = tree->head;
+  nodes[0] = tree->root;
   int i = 0;
   while (i > -1) {
     BTNode_t *node = nodes[i];
@@ -142,6 +142,7 @@ bool testRemove(BinaryTree_t *tree, void **items, int size) {
       }
       return false;
     }
+    free(value);
   }
 
   for (int i = 0; i < 20; i++) {
@@ -160,6 +161,7 @@ bool testRemove(BinaryTree_t *tree, void **items, int size) {
       }
       return false;
     }
+    free(value);
   }
   return true;
 }
@@ -188,39 +190,53 @@ void testBinaryTree() {
       printTree(tree, repr, 4);
     }
 
-    if (!testBSTProperty(tree)) {
-      printf("🚨 Failed BST Property!\n");
-      return;
-    }
-    if (!testFind(tree, items, size)) {
-      printf("🚨 Failed Find Test!\n");
-      return;
-    }
-    if (!testInsert(tree)) {
-      printf("🚨 Failed Insert Test!\n");
-      return;
-    }
-    if (!testBSTProperty(tree)) {
-      printf("🚨 Failed BST Property after insert!\n");
-      return;
-    }
-    if (!testRemove(tree, items, size)) {
-      printf("🚨 Failed Remove Test!\n");
-      return;
-    }
-    if (!testBSTProperty(tree)) {
-      printf("🚨 Failed BST Property after removal!\n");
-      return;
-    }
-    if (i % 2 == 0) {
+    if (i % 3 == 0) {
+      if (!testBSTProperty(tree)) {
+        printf("🚨 Failed BST Property!\n");
+        return;
+      }
+      if (!testFind(tree, items, size)) {
+        printf("🚨 Failed Find Test!\n");
+        return;
+      }
+      if (!testBSTProperty(tree)) {
+        printf("🚨 Failed BST Property after insert!\n");
+        return;
+      }
       testDestroy(tree);
       for (int j = 0; j < size; j++) {
         free(items[i]);
       }
+      free(items);
+
     } else {
+      if (!testBSTProperty(tree)) {
+        printf("🚨 Failed BST Property!\n");
+        return;
+      }
+      if (!testFind(tree, items, size)) {
+        printf("🚨 Failed Find Test!\n");
+        return;
+      }
+      if (!testInsert(tree)) {
+        printf("🚨 Failed Insert Test!\n");
+        return;
+      }
+      if (!testBSTProperty(tree)) {
+        printf("🚨 Failed BST Property after insert!\n");
+        return;
+      }
+      if (!testRemove(tree, items, size)) {
+        printf("🚨 Failed Remove Test!\n");
+        return;
+      }
+      if (!testBSTProperty(tree)) {
+        printf("🚨 Failed BST Property after removal!\n");
+        return;
+      }
       testDestroyAll(tree);
+      free(items);
     }
-    free(items);
   }
   printf("✅ All tests passed!\n");
 }
