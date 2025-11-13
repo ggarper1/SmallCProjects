@@ -1,4 +1,4 @@
-#include "random.h"
+#include "../include/random.h"
 #include <stdlib.h>
 
 int randInt(int min, int max) {

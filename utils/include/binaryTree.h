@@ -1,4 +1,3 @@
-#include <stdbool.h>
 #include <stddef.h>
 #include <stdio.h>
 
@@ -22,7 +21,6 @@ typedef struct BinaryTree {
 
 /**
  * Creates a new Binary Tree.
- * @param capacity Initial number of items.
  * @param compare_func Function to compare items.
  * @return A pointer to the new BinaryTree, or NULL on failure.
  */
@@ -48,15 +46,15 @@ BTNode_t *btInsert(BinaryTree_t *tree, void *item);
 
 /**
  * Removes a item pair from the Binary Tree.
- * @param tree The hash table.
+ * @param tree The Binary Tree.
  * @param item The item to remove.
  * @return NULL if the element was not found or the pointer to the value if it
  * was found.
  */
-void *btRemove(BinaryTree_t *ht, const void *value);
+void *btRemove(BinaryTree_t *tree, const void *value);
 
 /**
- * Destroys the hash table and frees all allocated memory.
+ * Destroys the Binary Tree and frees all allocated memory.
  * @param tree The BinaryTree to destroy.
  */
 void btDestroy(BinaryTree_t *tree);
@@ -72,7 +70,7 @@ void btDestroyAll(BinaryTree_t *tree);
  * @param tree The Binary Tree to print.
  */
 void printTree(BinaryTree_t *tree,
-               void (*repr)(BTNode_t *node, char *buffer, int bufferSize),
-               int nodeReprBuffer);
+               void (*repr)(BTNode_t *value, char *buffer, int bufferSize),
+               int bufferSize);
 
 #endif
