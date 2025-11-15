@@ -159,6 +159,11 @@ void *btRemove(BinaryTree_t *tree, const void *item) {
 }
 
 void btDestroy(BinaryTree_t *tree) {
+  if (tree->root == NULL) {
+    free(tree);
+    return;
+  }
+
   BTNode_t **nodes = malloc(sizeof(BTNode_t *) * (tree->height + 1));
   nodes[0] = tree->root;
   int i = 0;
@@ -185,10 +190,15 @@ void btDestroy(BinaryTree_t *tree) {
 }
 
 void btDestroyAll(BinaryTree_t *tree) {
+  if (tree->root == NULL) {
+    free(tree);
+    return;
+  }
+
   BTNode_t **nodes = malloc(sizeof(BTNode_t *) * (tree->height + 1));
   nodes[0] = tree->root;
-  int i = 0;
 
+  int i = 0;
   while (i > -1) {
     BTNode_t *l = nodes[i]->left;
     BTNode_t *r = nodes[i]->right;
@@ -197,6 +207,7 @@ void btDestroyAll(BinaryTree_t *tree) {
     if (l != NULL) {
       nodes[i] = l;
     }
+
     if (r && l) {
       i++;
     }
@@ -207,6 +218,7 @@ void btDestroyAll(BinaryTree_t *tree) {
       i--;
     }
   }
+
   free(nodes);
   free(tree);
 }
@@ -253,7 +265,6 @@ void printTree(BinaryTree_t *tree,
   int nSep = maxSpace / 2, cSep = maxSpace / 4;
   ctr = 0;
   while (ctr < tree->length) {
-    // printf("(%d, %d, %d)", start, end, ctr);
     // Print nodes:
     for (int i = start; i < end; i++) {
       if (nodes[i] != NULL) {

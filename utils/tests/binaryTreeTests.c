@@ -177,6 +177,11 @@ bool testDestroyAll(BinaryTree_t *tree) {
 }
 
 void testBinaryTree() {
+  BinaryTree_t *tree = newBinaryTree(compare);
+  btDestroyAll(tree);
+  tree = newBinaryTree(compare);
+  btDestroy(tree);
+
   for (int i = 1; i <= numTests; i++) {
     void **items;
     int size = i * 10;
@@ -205,9 +210,8 @@ void testBinaryTree() {
       }
       testDestroy(tree);
       for (int j = 0; j < size; j++) {
-        free(items[i]);
+        free(items[j]);
       }
-      free(items);
 
     } else {
       if (!testBSTProperty(tree)) {
@@ -235,8 +239,8 @@ void testBinaryTree() {
         return;
       }
       testDestroyAll(tree);
-      free(items);
     }
+    free(items);
   }
   printf("✅ All tests passed!\n");
 }
