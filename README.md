@@ -1,6 +1,6 @@
 # 🧩 Small Problem Solutions
 
-This repository is a collection of solutions written in C to various small programming and algorithmic problems. Each problem is contained within its own file.
+This repository is a collection of solutions written in C to various small programming and algorithmic problems. Each problem is contained within its own file. Additionally, I've created my own data strutures froms scratch to solve these small problems. For more info about these data strcutures see [UTILS.md](https://github.com/ggarper1/SmallCProjects/blob/main/UTILS.md)
 
 ---
 
@@ -13,6 +13,7 @@ This repository is a collection of solutions written in C to various small progr
 | `smallestInListV2` | Find the smallest element in a list thay can be obtained after a certain amount of operations. Medium version |
 | `smallestInListV3` | Find the smallest element in a list thay can be obtained after a certain amount of operations. Harder version |
 | `arraySumOperation` | Apply operations on a array and obtain the sum of it's elements after each one. |
+| `getBTHeight` | Gets a binary tree's height only accesing the tree's root. |
 
 ---
 
@@ -63,7 +64,7 @@ Output: 0
 
 ### `arraySumOperation`
 
-**The Problem:** problem from HackerRank 'Hack the Interview VI (U.S.)' competition. You have an identity permutation of integers as an array initially. An identity permutation of integers for `N` is a list containing all strictly positive numbers up to `N`. On this problem, you have to perform operations on this array and report the sum of the elements of the array after each operation.
+**The Problem:** Problem from HackerRank 'Hack the Interview VI (U.S.)' competition. You have an identity permutation of integers as an array initially. An identity permutation of integers for `N` is a list containing all strictly positive numbers up to `N`. On this problem, you have to perform operations on this array and report the sum of the elements of the array after each operation.
 
 The i_th operation consists of an integer `opi`.
 
@@ -73,3 +74,10 @@ The i_th operation consists of an integer `opi`.
 The input is read from a file containing in the first line the values for `N` and `M` separated by a space. `M` is the number of operations. After that, line i_th contains the value for operation i_th.
 
 **The Solution:** Simple problem.
+
+
+### `getBTHeight`
+
+**The Problem:** Obtain a tree's height only having acces to the tree's root.
+
+**The Solution:** Solved it iteratively with depth first search and recursively.
