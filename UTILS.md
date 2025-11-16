@@ -1,24 +1,52 @@
 # 📚 Utils Library Documentation
 
-This document provides comprehensive documentation for the custom data structures library included in this repository. All data structures are implemented in C and designed to work with generic data through void pointers.
+This document provides comprehensive documentation for the custom data structures library included in this repository. All data structures are implemented in C using basic libraries.
 
 ---
 
-## 🔑 Key Principles
+## 📋 Notes
 
 ### Memory Management
 - **Data Storage**: All data structures store pointers to values, not the values themselves
 - **User Responsibility**: The caller is responsible for:
-  - Managing memory allocation for stored values
+  - Memory allocation before storing values in the data structures
   - Handling type casting when retrieving values
   - Freeing removed elements from the data structure
-- **Two Destruction Methods**:
-  - `destroy()`: Frees only the data structure itself
+- **Destruction Methods**:
+  These data structures have two destruction methods:
+  - `destroy()`: Frees only the data structure itself.
   - `destroyAll()`: Frees the data structure AND all elements stored within it
+  
+  If you use `destroy()` instead of `destroyAll()`, ensure you free all stored values to avoid memory leaks.
 
 ### Type Safety
 Since these structures use `void*` pointers, type safety is the user's responsibility. Always ensure proper casting when inserting and retrieving values.
 
+---
+
+## 📂 File Structure
+
+```
+utils/
+├── include/
+│   ├── binaryTree.h
+│   ├── queue.h
+│   ├── stack.h
+│   ├── print.h
+│   ├── random.h
+│   └── sort.h
+├── src/
+│   ├── binaryTree.c
+│   ├── queue.c
+│   ├── stack.c
+│   ├── print.c
+│   ├── random.c
+│   └── sort.c
+└── tests/
+    ├── binaryTreeTests.c
+    ├── queueTests.c
+    └── stackTests.c
+```
 ---
 
 ## 📦 Data Structures
@@ -219,9 +247,9 @@ typedef struct BinaryTree {
 Stack_t *stack = newStack(10);
 
 // Push values
-int *val1 = malloc(sizeof(int));
-*val1 = 42;
-sPush(stack, val1);
+int *val = malloc(sizeof(int));
+*val = 42;
+sPush(stack, val);
 
 // Pop value
 int *retrieved = (int *)sPop(stack);
@@ -283,37 +311,3 @@ free(removed);
 btDestroy(tree);
 ```
 
----
-
-## ⚠️ Important Notes
-
-1. **Always check return values**: Functions may return NULL on failure
-2. **Memory leaks**: If you use `destroy()` instead of `destroyAll()`, ensure you free all stored values first
-3. **Type casting**: Always cast void pointers to the correct type when retrieving values
-4. **Comparison functions**: For Binary Tree, ensure your comparison function is consistent and handles all edge cases
-
----
-
-## 📂 File Structure
-
-```
-utils/
-├── include/
-│   ├── binaryTree.h
-│   ├── queue.h
-│   ├── stack.h
-│   ├── print.h
-│   ├── random.h
-│   └── sort.h
-├── src/
-│   ├── binaryTree.c
-│   ├── queue.c
-│   ├── stack.c
-│   ├── print.c
-│   ├── random.c
-│   └── sort.c
-└── tests/
-    ├── binaryTreeTests.c
-    ├── queueTests.c
-    └── stackTests.c
-```
