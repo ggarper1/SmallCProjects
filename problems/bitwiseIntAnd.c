@@ -9,6 +9,13 @@
     _a >= _b ? _a : _b;                                                        \
   })
 
+int smarter(int N, int K) {
+  if ((K - 1 | K) <= N) {
+    return K - 1;
+  }
+  return K - 2;
+}
+
 int smart(int N, int K) {
   int current = K - 1;
   while (current > 0) {
@@ -53,6 +60,7 @@ void runTests() {
     int n = randInt(2, 1000);
     int k = randInt(2, n);
 
+    int smarterResult = smarter(n, k);
     int smartResult = smart(n, k);
     int bruteResult = brute(n, k);
 
@@ -61,13 +69,26 @@ void runTests() {
              smartResult, bruteResult);
       return;
     }
+    if (smarterResult != bruteResult) {
+      printf("🚨 (smarter) Error for n=%d and k=%d\n\tReturned: %d\n\tActual: "
+             "%d\n",
+             n, k, smarterResult, bruteResult);
+      return;
+    }
   }
+  int smarterResult = smarter(2, 2);
   int smartResult = smart(2, 2);
   int bruteResult = brute(2, 2);
 
   if (smartResult != bruteResult) {
     printf("🚨 Error for n=2 and k=2\n\tReturned: %d\n\tActual: %d\n",
            smartResult, bruteResult);
+    return;
+  }
+
+  if (smarterResult != bruteResult) {
+    printf("🚨 (smarter) Error for n=2 and k=2\n\tReturned: %d\n\tActual: %d\n",
+           smarterResult, bruteResult);
     return;
   }
   printf("✅ Tests passed!\n");
