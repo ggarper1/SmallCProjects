@@ -14,6 +14,7 @@ This repository is a collection of solutions written in C to various small progr
 | `smallestInListV3` | Find the smallest element in a list thay can be obtained after a certain amount of operations. Harder version |
 | `arraySumOperation` | Apply operations on a array and obtain the sum of it's elements after each one. |
 | `getBTHeight` | Gets a binary tree's height only accesing the tree's root. |
+| `bitwiseIntAnd` | Given two numbers, `k` and `n` find two different numbers, `a` and `b`, both not larger than `N`, such that `a AND b` is as large as possible but less than `k`. |
 
 ---
 
@@ -73,11 +74,12 @@ The i_th operation consists of an integer `opi`.
 
 The input is read from a file containing in the first line the values for `N` and `M` separated by a space. `M` is the number of operations. After that, line i_th contains the value for operation i_th.
 
-**The Solution:** Simple problem.
-
 
 ### `getBTHeight`
 
-**The Problem:** Obtain a tree's height only having acces to the tree's root.
+**The Problem:** Obtain a tree's height only having access to the tree's root.
 
-**The Solution:** Solved it iteratively with depth first search and recursively.
+
+### `bitwiseIntAnd`
+
+**The Problem:** Given two numbers, `k` and `n` find two different numbers, `a` and `b`, in the interval `[1,2,3,...,N]`, such that `a AND b` is as large as possible but less than `k`.
